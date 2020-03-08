@@ -1,0 +1,27 @@
+// **RECUERDA** PRIORIDAD EN FUNCIÓN DEL ORDEN DE LAS REGLAS (LA SUPERIOR LA MÁS PRIORITARIA)
+
+//rule prioridad1 {
+//  declarations
+//    practica.objetos.Herramienta h1;
+//  preconditions
+//    !h1.getNombre().equals("");		
+//  actions
+// 	h1.setNombre("FIN");
+ 	// no se incluye "modified" para forzar que finalice la ejecución
+//}
+
+rule asignation{
+	declarations
+		practica.objetos.Tarea t1;
+		practica.objetos.Trabajador w1;
+	preconditions
+		t1.getUnidades() > 0;
+		t1.getState().equalse(false);
+		w1.getState().equalse(false);
+	actions
+		w1.setWork();
+		t1.assignWorker();
+		w1.setWorkingArea(t1.getArea());
+		modified(w1);
+		modified(t1);
+}

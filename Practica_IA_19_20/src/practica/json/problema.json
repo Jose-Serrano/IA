@@ -1,0 +1,197 @@
+{
+  "tareas":{
+    "tareaLimpiar1":{
+      "tipo": "limpiar",
+      "area": "R",
+      "unidades": 6
+    },
+    "tareaReparar1":{
+      "tipo": "reparar",
+      "area": "R",
+      "unidades": 0
+    },
+    "tareaPodar1":{
+      "tipo": "podar",
+      "area": "R",
+      "unidades": 0
+    },
+    "tareaLimpiar2":{
+      "tipo": "limpiar",
+      "area": "U",
+      "unidades": 5
+    },
+    "tareaReparar2":{
+      "tipo": "reparar",
+      "area": "U",
+      "unidades": 5
+    },
+    "tareaPodar2":{
+      "tipo": "podar",
+      "area": "U",
+      "unidades": 0
+    },
+    "tareaLimpiar3":{
+      "tipo": "limpiar",
+      "area": "B",
+      "unidades": 0
+    },
+    "tareaReparar3":{
+      "tipo": "reparar",
+      "area": "B",
+      "unidades": 3
+    },
+    "tareaPodar3":{
+      "tipo": "podar",
+      "area": "B",
+      "unidades": 0
+    },
+    "tareaLimpiar4":{
+      "tipo": "limpiar",
+      "area": "C1",
+      "unidades": 0
+    },
+    "tareaReparar4":{
+      "tipo": "reparar",
+      "area": "C1",
+      "unidades": 0
+    },
+    "tareaPodar4":{
+      "tipo": "podar",
+      "area": "C1",
+      "unidades": 0
+    },
+    "tareaLimpiar5":{
+      "tipo": "limpiar",
+      "area": "C2",
+      "unidades": 8
+    },
+    "tareaReparar5":{
+      "tipo": "reparar",
+      "area": "C2",
+      "unidades": 6
+    },
+    "tareaPodar5":{
+      "tipo": "podar",
+      "area": "C2",
+      "unidades": 5
+    },
+    "tareaLimpiar6":{
+      "tipo": "limpiar",
+      "area": "J1",
+      "unidades": 0
+    },
+    "tareaReparar6":{
+      "tipo": "reparar",
+      "area": "J1",
+      "unidades": 5
+    },
+    "tareaPodar6":{
+      "tipo": "podar",
+      "area": "J1",
+      "unidades": 10
+    },
+    "tareaLimpiar7":{
+      "tipo": "limpiar",
+      "area": "J2",
+      "unidades": 0
+    },
+    "tareaReparar7":{
+      "tipo": "reparar",
+      "area": "J2",
+      "unidades": 8
+    },
+    "tareaPodar7":{
+      "tipo": "podar",
+      "area": "J2",
+      "unidades": 2
+    },
+    "tareaLimpiar8":{
+      "tipo": "limpiar",
+      "area": "J3",
+      "unidades": 0
+    },
+    "tareaReparar8":{
+      "tipo": "reparar",
+      "area": "J3",
+      "unidades": 0
+    },
+    "tareaPodar8":{
+      "tipo": "podar",
+      "area": "J3",
+      "unidades": 12
+    }
+    
+  },
+  "trabajadores":{
+    "trabajador1":{
+      "nombre":  "Antonio",
+      "podar":   5,
+      "limpiar": 5,
+      "reparar": 5
+    },
+    "trabajador2":{
+      "nombre":  "Bernardo",
+      "podar":   6,
+      "limpiar": 4,
+      "reparar": 1
+    },
+    "trabajador3":{
+      "nombre":  "Cristian",
+      "podar":   2,
+      "limpiar": 8,
+      "reparar": 2
+    },
+    "trabajador4":{
+      "nombre":  "Diego",
+      "podar":   3,
+      "limpiar": 3,
+      "reparar": 6
+    }
+  },
+  "herramientas":{
+    "herramienta1":{
+      "nombre":   "Tijeras de podar",
+      "trabajo":  "podar",
+      "peso":     0,
+      "mejora":   0,
+      "cantidad": 4
+    },
+    "herramienta2":{
+      "nombre":   "Escoba",
+      "trabajo":  "limpiar",
+      "peso":     0,
+      "mejora":   0,
+      "cantidad": 4
+    },
+    "herramienta3":{
+      "nombre":   "Destornillador",
+      "trabajo":  "reparar",
+      "peso":     0,
+      "mejora":   0,
+      "cantidad": 4
+    },
+    "herramienta4":{
+      "nombre":   "Motosierra",
+      "trabajo":  "podar",
+      "peso":     10,
+      "mejora":   7,
+      "cantidad": 1
+    },
+    "herramienta5":{
+      "nombre":   "Aspirador",
+      "trabajo":  "limpiar",
+      "peso":     5,
+      "mejora":   3,
+      "cantidad": 2
+    },
+    "herramienta6":{
+      "nombre":   "Caja de herramientas",
+      "trabajo":  "reparar",
+      "peso":     3,
+      "mejora":   1,
+      "cantidad": 3
+    }
+  }
+  
+  
+}
