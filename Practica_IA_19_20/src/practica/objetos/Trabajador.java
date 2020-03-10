@@ -1,5 +1,7 @@
 package practica.objetos;
 
+import java.util.ArrayList;
+
 /**
  * Clase creada como objeto base para la práctica 2019-2020 de Inteligencia Artificial, UC3M, Colmenarejo
  *
@@ -17,6 +19,7 @@ public class Trabajador {
 	// AÑADIR LAS VARIABLES NECESARIAS
 	boolean working;
 	String workingAt;
+	ArrayList<Tarea> workingIn;
 	/**
 	 * Constructor para el objeto
 	 * NO MODIFICAR LA LLAMADA DEL CONSTRUCTOR
@@ -29,7 +32,8 @@ public class Trabajador {
 		// Añadir el estado inicial (estático) de las variables que se añadan
 		// Si se necesita añadir valores variables, como un ID, utilizar setters
 		this.working = false;
-		this.workingAt = null;
+		this.workingAt = "";
+		this.workingIn = new ArrayList<Tarea>();
 	}
 	
 	/**
@@ -71,10 +75,21 @@ public class Trabajador {
 	}
 	public void setWorkingArea(String area) {
 		System.out.println("Asignando area");
-		this.workingAt = area;
+		this.workingAt += area +" ";
 	}
 	public String getWorkingArea() {
 		return this.workingAt;
+	}
+	
+	public void addWorkingArea(Tarea tarea) {
+		this.workingIn.add(tarea);
+	}
+	
+	public int getWorkingHability(String workType) {
+		if(workType.equalsIgnoreCase("Podar"))return getHabPodar();
+		if(workType.equalsIgnoreCase("Limpiar"))return getHabLimpiar();
+		if(workType.equalsIgnoreCase("Reparar"))return getHabReparar();
+		return -1;
 	}
 
 }

@@ -15,6 +15,8 @@ public class Tarea {
 	int unidades;
 	// AÑADIR LAS VARIABLES NECESARIAS
 	boolean working;
+	Trabajador worker;
+	
 	/**
 	 * Constructor para el objeto
 	 * NO MODIFICAR LA LLAMADA DEL CONSTRUCTOR
@@ -26,6 +28,7 @@ public class Tarea {
 		// Añadir el estado inicial (estático) de las variables que se añadan
 		// Si se necesita añadir valores variables, como un ID, utilizar setters
 		this.working = false;
+		this.worker = null;
 	}
 	
 	// Métodos getters y setters
@@ -51,8 +54,9 @@ public class Tarea {
 		this.unidades = unidades;
 	}
 	
-	public void assignWorker() {
+	public void assignWorker(Trabajador worker) {
 		this.working = true;
+		this.worker = worker;
 	}
 	public void retractWorker() {
 		this.working = false;
@@ -60,8 +64,10 @@ public class Tarea {
 	public boolean getState() {
 		return this.working;
 	}
-	
-	public void updateTarea() {
+	public Trabajador getWorker() {
+		return worker;
+	}
+	public void endTarea() {
 		this.unidades = 0;
 	}
 	
