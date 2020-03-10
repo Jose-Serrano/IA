@@ -85,6 +85,10 @@ public class Trabajador {
 		this.workingIn.add(tarea);
 	}
 	
+	public ArrayList<Tarea> getAllWorkingAreas(){
+		return this.workingIn;
+	}
+	
 	public int getWorkingHability(String workType) {
 		if(workType.equalsIgnoreCase("Podar"))return getHabPodar();
 		if(workType.equalsIgnoreCase("Limpiar"))return getHabLimpiar();

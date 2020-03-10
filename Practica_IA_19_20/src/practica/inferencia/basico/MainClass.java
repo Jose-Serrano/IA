@@ -104,6 +104,15 @@ public class MainClass {
 		System.out.println("------------------------ METRICAS -----------------------");
 		printMetrics(executionTime, herramientas, trabajadores, tareas);
 		
+		//Ajustamos las areas de los trabajadores definitivas
+		for (Trabajador worker : trabajadores) {
+			ArrayList<Tarea> workinAreas = worker.getAllWorkingAreas();
+			for (Tarea tarea : workinAreas) {
+				if (tarea.getWorker().getNombre().equalsIgnoreCase(worker.getNombre())) {
+					System.out.println("El trabajador "+worker.getNombre()+" esta en "+tarea.getArea()+" haciendo "+tarea.getTipo());
+				}
+			}
+		}
 		//Comprobacion final
 		for (Tarea tarea : readedTareas) {
 			if (tarea.getState()) {

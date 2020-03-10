@@ -28,7 +28,7 @@ rule asignation{
 		modified(w1);
 		modified(t1);
 }
-
+//Mejorando la asignacion existente
 rule improveAsignation1{
 	declarations
 		practica.objetos.Tarea t1;
