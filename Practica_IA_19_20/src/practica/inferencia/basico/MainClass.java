@@ -106,21 +106,23 @@ public class MainClass {
 		
 		//Ajustamos las areas de los trabajadores definitivas
 		for (Trabajador worker : trabajadores) {
+			System.out.print("El trabajador "+worker.getNombre()+" esta en: ");
 			ArrayList<Tarea> workinAreas = worker.getAllWorkingAreas();
+			if (workinAreas.isEmpty()) {
+				System.out.print(" Vacio ");
+			}
 			for (Tarea tarea : workinAreas) {
 				if (tarea.getWorker().getNombre().equalsIgnoreCase(worker.getNombre())) {
-					System.out.println("El trabajador "+worker.getNombre()+" esta en "+tarea.getArea()+" haciendo "+tarea.getTipo());
+					System.out.print(tarea.getArea()+" haciendo "+tarea.getTipo()+" ");
 				}
 			}
+			System.out.println("Horas totales= "+worker.getHours());
 		}
 		//Comprobacion final
 		for (Tarea tarea : readedTareas) {
 			if (tarea.getState()) {
 				System.out.println(tarea.getArea()+" "+tarea.getTipo()+" "+tarea.getUnidades()+" "+tarea.getState());
 			}
-		}
-		for (Trabajador worker : trabajadores) {
-			System.out.println("El trabajador "+worker.getNombre()+" esta en "+worker.getWorkingArea());
 		}
 	}
 

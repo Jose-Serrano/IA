@@ -18,8 +18,9 @@ public class Trabajador {
 	int habReparar;
 	// AÑADIR LAS VARIABLES NECESARIAS
 	boolean working;
-	String workingAt;
+//	String workingAt;
 	ArrayList<Tarea> workingIn;
+	double workingHours;
 	/**
 	 * Constructor para el objeto
 	 * NO MODIFICAR LA LLAMADA DEL CONSTRUCTOR
@@ -32,8 +33,9 @@ public class Trabajador {
 		// Añadir el estado inicial (estático) de las variables que se añadan
 		// Si se necesita añadir valores variables, como un ID, utilizar setters
 		this.working = false;
-		this.workingAt = "";
+//		this.workingAt = "";
 		this.workingIn = new ArrayList<Tarea>();
+		this.workingHours = 0.000;
 	}
 	
 	/**
@@ -73,15 +75,16 @@ public class Trabajador {
 	public boolean getState() {
 		return this.working;
 	}
-	public void setWorkingArea(String area) {
-		System.out.println("Asignando area");
-		this.workingAt += area +" ";
-	}
-	public String getWorkingArea() {
-		return this.workingAt;
-	}
+//	public void setWorkingArea(String area) {
+//		System.out.println("Asignando area");
+//		this.workingAt += area +" ";
+//	}
+//	public String getWorkingArea() {
+//		return this.workingAt;
+//	}
 	
 	public void addWorkingArea(Tarea tarea) {
+		setWorkingHours(tarea.getTipo(), tarea.getUnidades());
 		this.workingIn.add(tarea);
 	}
 	
@@ -95,5 +98,23 @@ public class Trabajador {
 		if(workType.equalsIgnoreCase("Reparar"))return getHabReparar();
 		return -1;
 	}
-
+	
+	//Ajustamos las horas trabajando:
+	public void setWorkingHours(String tipo, int unidades) {
+		this.workingHours += (double)Math.round((unidades/getWorkingHability(tipo)));
+	}
+	
+	public double getHours() {
+		return this.workingHours;
+	}
+	
+	//Buscamos una tarea entre los trabajadores;
+	public boolean isAreaIn(Tarea tarea) {
+		for (Tarea tarea2 : workingIn) {
+			if (tarea2.getArea().equalsIgnoreCase(tarea.getArea())) {
+				return true;
+			}
+		}
+		return false;
+	}
 }
