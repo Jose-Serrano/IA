@@ -46,12 +46,3 @@ rule adjustHours{
 		modified(w1);
 }
 
-rule everyoneWorking{
-	declarations
-		practica.objetos.Tarea t1;
-		practica.objetos.Trabajador w1;
-	preconditions
-		
-	actions
-		
-}

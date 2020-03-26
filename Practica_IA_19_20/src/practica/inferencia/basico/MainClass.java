@@ -106,6 +106,7 @@ public class MainClass {
 		
 		//Ajustamos las areas de los trabajadores definitivas
 		for (Trabajador worker : trabajadores) {
+			String habilidad = "";
 			System.out.print("El trabajador "+worker.getNombre()+" esta en: ");
 			ArrayList<Tarea> workinAreas = worker.getAllWorkingAreas();
 			if (workinAreas.isEmpty()) {
@@ -114,6 +115,7 @@ public class MainClass {
 			for (Tarea tarea : workinAreas) {
 				if (tarea.getWorker().getNombre().equalsIgnoreCase(worker.getNombre())) {
 					System.out.print(tarea.getArea()+" haciendo "+tarea.getTipo()+" ");
+					habilidad = tarea.getTipo();
 				}
 			}
 			System.out.println("Horas totales= "+worker.getHours());

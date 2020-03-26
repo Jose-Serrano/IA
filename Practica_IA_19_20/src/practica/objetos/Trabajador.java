@@ -101,7 +101,8 @@ public class Trabajador {
 	
 	//Ajustamos las horas trabajando:
 	public void setWorkingHours(String tipo, int unidades) {
-		this.workingHours += (double)Math.round((unidades/getWorkingHability(tipo)));
+		double aux = (double)unidades/(double)getWorkingHability(tipo);
+		this.workingHours += Math.round(aux*100.0)/100.0;
 	}
 	
 	public double getHours() {
