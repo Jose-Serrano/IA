@@ -31,7 +31,7 @@ rule improveAsignation{
 		modified(t1);
 }
 
-//Ajustando las horas de los trabajadores
+//Ajustando las horas de los trabajadores en la anterior
 //rule adjustHours{
 //	declarations
 //		practica.objetos.Tarea t1;
