@@ -126,6 +126,19 @@ public class MainClass {
 				System.out.println(tarea.getArea()+" "+tarea.getTipo()+" "+tarea.getUnidades()+" "+tarea.getState());
 			}
 		}
+		
+		/* Prueba de que se elimina una tarea
+		Trabajador tr = trabajadores.get(2);
+		Tarea ta = null;
+		for (Tarea tarea2 : tareas) {
+			if (tarea2.getTipo().equalsIgnoreCase("podar")) {
+				ta = tarea2;
+			}
+		}
+		System.out.println("vamos a eliminar la tarea "+ta.getArea()+" que es "+ta.getTipo()+" del trabajador "+tr.getNombre());
+		tr.deleteTarea(ta);
+		System.out.println(tr.getHours());
+		FUNCIONA */
 	}
 
 	/**

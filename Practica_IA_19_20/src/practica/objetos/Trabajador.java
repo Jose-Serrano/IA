@@ -118,4 +118,16 @@ public class Trabajador {
 		}
 		return false;
 	}
+	
+	public void deleteTarea(Tarea tarea) {
+		workingIn.remove(tarea);
+		updateHours();
+	}
+	
+	public void updateHours() {
+		this.workingHours = 0;
+		for (Tarea tarea : workingIn) {
+			setWorkingHours(tarea.getTipo(), tarea.unidades);
+		}
+	}
 }

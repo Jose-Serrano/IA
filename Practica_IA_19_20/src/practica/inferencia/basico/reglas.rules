@@ -7,42 +7,56 @@ rule asignation{
 	preconditions
 		t1.getUnidades() > 0;
 		!t1.getState();
-//		!w1.getState();
 	actions
 		w1.setWork();
 		t1.assignWorker(w1);
-//		w1.setWorkingArea(t1.getArea());
+		w1.addWorkingArea(t1);
 		modified(w1);
 		modified(t1);
 }
 //Mejorando la asignacion existente
-rule improveAsignation1{
+rule improveAsignation{
 	declarations
 		practica.objetos.Tarea t1;
 		practica.objetos.Trabajador w1;
 	preconditions
 		t1.getState(); //Debe de tener alguien asignado
 		t1.getWorker().getWorkingHability(t1.getTipo()) < w1.getWorkingHability(t1.getTipo());
-		t1.getWorker().getNombre() != w1.getNombre();
+		!t1.getWorker().getNombre().equals(w1.getNombre());
 	actions
+		t1.getWorker().deleteTarea(t1);
 		t1.assignWorker(w1);
-//		w1.setWorkingArea("-"+t1.getArea());
-//		w1.addWorkingArea(t1);
+		w1.addWorkingArea(t1);
 		modified(w1);
 		modified(t1);
 }
+
 //Ajustando las horas de los trabajadores
-rule adjustHours{
+//rule adjustHours{
+//	declarations
+//		practica.objetos.Tarea t1;
+//		practica.objetos.Trabajador w1;
+//	preconditions
+//		t1.getState();
+//		t1.getWorker().getNombre().equals(w1.getNombre());
+//		//Si la tarea que vamos a añadir ya la hemos añadido el siguiente condicional devolvería true
+//		!w1.isAreaIn(t1);
+//	actions
+//		w1.addWorkingArea(t1);
+//		modified(w1);
+//}
+
+//Se debe quedar en un bucle infinito porque no tenemos ninguna forma de indicar que esa tarea ya ha sido reasignada.
+rule everyoneWorking{
 	declarations
 		practica.objetos.Tarea t1;
 		practica.objetos.Trabajador w1;
 	preconditions
-		t1.getState();
-		t1.getWorker().getNombre().equals(w1.getNombre());
-		//Si la tarea que vamos a añadir ya la hemos añadido el siguiente condicional devolvería true
-		!w1.isAreaIn(t1);
+		t1.getWorker().getHours() > w1.getHours();//Aqui esta el fallo de porqué no se lanza esta regla, funciona con >= y se queda en el bucle infinito.
 	actions
+		t1.getWorker().deleteTarea(t1);
+		t1.assignWorker(w1);
 		w1.addWorkingArea(t1);
 		modified(w1);
+		modified(t1);
 }
-
