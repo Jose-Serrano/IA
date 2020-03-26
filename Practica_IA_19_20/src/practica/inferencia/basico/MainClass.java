@@ -139,7 +139,6 @@ public class MainClass {
 	}
 
 	/**
-	 *
 	 * Se generan las métricas implementadas y se imprimen sus resultados
 	 * @param herramientas
 	 * @param trabajadores
