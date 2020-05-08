@@ -1,27 +1,90 @@
 // **RECUERDA** PRIORIDAD EN FUNCIÓN DEL ORDEN DE LAS REGLAS (LA SUPERIOR LA MÁS PRIORITARIA)
 
-//rule prioridad1 {
-//  declarations
-//    practica.objetos.Herramienta h1;
-//  preconditions
-//    !h1.getNombre().equals("");		
-//  actions
-// 	h1.setNombre("FIN");
- 	// no se incluye "modified" para forzar que finalice la ejecución
-//}
 
-rule asignation{
+//Asignamos una tarea a cada uno de los trabajadores
+rule getFirstTask{
+	declarations
+		practica.objetos.Trabajador w1;
+		practica.objetos.Tarea t1;
+		practica.objetos.Herramienta h1;
+	preconditions
+		!w1.isWorking();
+		t1.getUnidades() > 0;
+		t1.getWorker() == null;
+		h1.getTrabajo().equalsIgnoreCase(t1.getTipo());
+		w1.getTool() == null;
+		!h1.getState();
+	actions
+		t1.assignWorker(w1);
+		w1.startWork();
+		w1.addTask(t1);
+		w1.setTool(h1);
+		h1.toolBeingUsed();
+		modified(t1);
+		modified(w1);
+		modified(h1);
+}
+//Asignamos la siguiente tarea
+//Hay que indicarle que el trabajador tiene que haber terminado la tarea con la variable isWorking()
+//Tambien que para moversee a una tarea del mismo tipo la herramienta le tiene que servir
+rule getNextTask{
+	declarations
+		practica.objetos.Trabajador w1;
+		practica.objetos.Tarea t1;
+	preconditions
+		w1.getTool().getTrabajo().equalsIgnoreCase(t1.getTipo());
+		t1.getUnidades() > 0;
+		t1.getWorker() == null;
+		!w1.isWorking();
+	actions
+		t1.assignWorker(w1);
+		w1.startWork();
+		w1.walkTime(w1.getTask(), t1);
+		w1.addTask(t1);
+		modified(t1);
+		modified(w1);
+}
+
+rule changeTool{
 	declarations
 		practica.objetos.Tarea t1;
+		practica.objetos.Tarea t2;
+		practica.objetos.Herramienta h1;
 		practica.objetos.Trabajador w1;
 	preconditions
-		t1.getUnidades() > 0;
-		t1.getState().equalse(false);
-		w1.getState().equalse(false);
+		!w1.getTool().getTrabajo().equalsIgnoreCase(t1.getTipo());
+		t1.getArea().equalsIgnoreCase("A");
+		!h1.getState();
+		h1.getTrabajo().equalsIgnoreCase(t2.getTipo());
+		t2.getUnidades() > 0;
+		t2.getWorker() == null;
+		!w1.isWorking();
 	actions
-		w1.setWork();
-		t1.assignWorker();
-		w1.setWorkingArea(t1.getArea());
+		w1.walkTime(w1.getTask(), t1);//Tiempo para llegar al almacen
+		w1.walkTime(t1, t2);//Tiempo para ir del almacen a la zona donde esta la tarea
+		w1.getTool().toolGiveBack();
+		w1.setTool(h1);
+		w1.addTask(t2);
+		w1.startWork();
+		h1.toolBeingUsed();
+		t2.assignWorker(w1);
 		modified(w1);
-		modified(t1);
+		modified(h1);
+		modified(t2);
 }
+
+//Finaliza la tarea que están realizando
+rule working{
+	declarations
+		practica.objetos.Trabajador w1;
+		practica.objetos.Tarea t1;
+	preconditions
+		t1.getArea().equalsIgnoreCase(w1.getTask().getArea()) && t1.getTipo().equalsIgnoreCase(w1.getTask().getTipo());
+		w1.isWorking();
+	actions
+		w1.endWork();
+		t1.resetTask();
+		modified(t1);
+		modified(w1);
+}
+

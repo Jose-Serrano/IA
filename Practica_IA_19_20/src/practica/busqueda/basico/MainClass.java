@@ -6,8 +6,8 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import practica.busqueda.avanzado.AStar;
-import practica.busqueda.avanzado.Node;
+import practica.busqueda.basico.AStar;
+import practica.busqueda.basico.Node;
 import practica.json.LectorJSON;
 import practica.objetos.Herramienta;
 import practica.objetos.Tarea;
@@ -70,9 +70,71 @@ public class MainClass {
 		// Tareas
 		ArrayList<Tarea> tareas = readedTareas;
 
+		Tarea warehouse = new Tarea(null, "A", 0);
+		tareas.add(warehouse);
+		
+		for (Tarea tarea : tareas) {
+			for (Tarea tarea2 : tareas) {
+				if (tarea.getArea().equalsIgnoreCase("U")){
+					if ("J1BJ2".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}
+				}
+				if(tarea.getArea().equalsIgnoreCase("J1")) {
+					if ("UBJ2C1".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}
+				}
+				if(tarea.getArea().equalsIgnoreCase("J2")) {
+					if ("AUJ1C1C2".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+				if(tarea.getArea().equalsIgnoreCase("B")) {
+					if ("J1U".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+				if(tarea.getArea().equalsIgnoreCase("A")) {
+					if ("J2C2J3".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+				if(tarea.getArea().equalsIgnoreCase("J3")) {
+					if ("RAC2".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+				if(tarea.getArea().equalsIgnoreCase("C1")) {
+					if ("C2J2J1".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+				if(tarea.getArea().equalsIgnoreCase("C2")) {
+					if ("AJ2C1J3".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+				if(tarea.getArea().equalsIgnoreCase("R")) {
+					if ("J3".indexOf(tarea2.getArea()) != -1) {
+						tarea.addAdyacentTask(tarea2);
+					}					
+				}
+			}
+		}
+		
+		for (Tarea tarea : tareas) {
+			System.out.println(tarea.getArea()+" "+tarea.getTipo()+" "+tarea.getUnidades());
+		}
+		for (Trabajador worker : trabajadores) {
+			System.out.println(worker.getNombre());
+		}
+
 		//-------- Se crean los inicializan los objetos para ejecutar la solución --------//
 		Node initialNode = new Node(null, herramientas, trabajadores, tareas);
-		Node goalNode    = new Node(initialNode);
+		Node goalNode = createEndNode(initialNode);
+		initialNode.setWorkingAt(warehouse);
+		goalNode.setWorkingAt(warehouse);
 		AStar aStar = new AStar(printDebug, initialNode, goalNode); // Se inicializa el A-Estrella
 
 		//----------------------------- Ejecución del algoritmo ---------------------------//
@@ -113,6 +175,18 @@ public class MainClass {
 	public static void printMetrics(AStar aStar, double executionTime) {
 		System.out.println("************** IMPRESION DE METRICAS **************");
 		System.out.println("La ejecución ha tardado: "+executionTime +" segundos");
+	}
+	
+	private static Node createEndNode(Node initNode) {
+		ArrayList<Trabajador> workers = initNode.getTrabajadores();
+		ArrayList<Herramienta> tools = initNode.getHerramientas();
+		ArrayList<Tarea> tasks = new ArrayList<Tarea>();
+		for (Tarea task : initNode.getTareas()) {
+			Tarea newTask = new Tarea(task.getTipo(), task.getArea(), task.getUnidades());
+			newTask.resetTask();
+			tasks.add(newTask);
+		}
+		return new Node(initNode, tools, workers, tasks);
 	}
 
 }

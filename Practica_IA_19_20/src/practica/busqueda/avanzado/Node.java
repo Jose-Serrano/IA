@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import practica.objetos.Herramienta;
 import practica.objetos.Tarea;
 import practica.objetos.Trabajador;
+import practica.objetos.taskDistance;
 
 /**
  * Clase creada como base para la parte 2 de la práctica 2019-2020 de Inteligencia Artificial, UC3M, Colmenarejo
@@ -24,7 +25,7 @@ public class Node {
 	ArrayList<Trabajador>  trabajadores;
 	ArrayList<Tarea>       tareas;
 	// Añadir más variables si se desea
-
+	private Tarea workingAt;
 	/**
 	 * MODIFICAR
 	 * Constructor para introducir un nuevo nodo en el algoritmo A estrella
@@ -35,6 +36,7 @@ public class Node {
 		this.trabajadores = trabajadores;
 		this.tareas       = tareas;
 		// Añadir más variables si se desea
+		this.workingAt = null;
 	}
 
 	/**
@@ -55,6 +57,21 @@ public class Node {
 		ArrayList<Trabajador> trabajadores = new ArrayList<Trabajador>();
 		for (int i = 0; i < original.trabajadores.size(); i++) {
 			Trabajador trabajador = new Trabajador(original.trabajadores.get(i).getNombre(), original.trabajadores.get(i).getHabPodar(), original.trabajadores.get(i).getHabLimpiar(), original.trabajadores.get(i).getHabReparar());
+			if (original.trabajadores.get(i).getTask() != null) {
+				Tarea newTask = new Tarea(original.trabajadores.get(i).getTask().getTipo(), original.trabajadores.get(i).getTask().getArea(), original.trabajadores.get(i).getTask().getUnidades());
+				for (taskDistance dis : original.tareas.get(i).getAllDistances()) {
+					newTask.addDistance(dis);
+				}
+				Herramienta newTool = new Herramienta(
+														original.trabajadores.get(i).getTool().getNombre(),
+														original.trabajadores.get(i).getTool().getTrabajo(),
+														original.trabajadores.get(i).getTool().getPeso(),
+														original.trabajadores.get(i).getTool().getMejora(),
+														original.trabajadores.get(i).getTool().getCantidad()
+													);
+				trabajador.setTool(newTool);
+				trabajador.addTask(newTask);
+			}
 			trabajadores.add(trabajador);
 		}
 		this.trabajadores = trabajadores;
@@ -68,14 +85,19 @@ public class Node {
 		for (int i = 0; i < original.tareas.size(); i++) {
 			Tarea tarea = new Tarea(original.tareas.get(i).getTipo(), original.tareas.get(i).getArea(), original.tareas.get(i).getUnidades());
 			tareas.add(tarea);
+			for (taskDistance dis : original.tareas.get(i).getAllDistances()) {
+				tarea.addDistance(dis);
+			}
 		}
 		this.tareas = tareas;
+		this.workingAt = original.getWorkingAt();
 	}
 
 	/**
 	 * Constructor auxiliar para generar el primer nodo de la lista abierta
+	 * Constructor modificado para el problema.
 	 */ 
-	public Node() {	}
+	public Node() {}
 
 	/**
 	 *  Calcula el valor de la heuristica del problema para el nodo 
@@ -85,7 +107,26 @@ public class Node {
 	 */
 	public void computeHeuristic(Node finalNode) {
 		// MODIFICAR para ajustarse a las necesidades del problema
-		this.heuristic = 0;
+		//La función heurística del problema. f(n) = h(n) - g(n);
+		//h(n) lo que queda por hacer;
+		//g(n) lo que llevamos hecho.
+		//Comparamos el nodo final con el nodo actual
+		for (Tarea task : tareas) {
+			if (task.getUnidades() > 0) {
+				//Hay que buscar una forma de contemplar una heuristica correcta.
+				
+				this.heuristic += task.getUnidades()*20;
+			}
+		}
+//		System.out.println("El valor de la heurítica para este nodo es: "+this.heuristic);
+	}
+	
+	private Herramienta getTool(String taskType) {
+		for (Herramienta herramienta : herramientas) {
+			if(herramienta.getTrabajo().equalsIgnoreCase(taskType))
+				return herramienta;
+		}
+		return null;
 	}
 
 	/**
@@ -96,9 +137,47 @@ public class Node {
 	 * @return true: son iguales. false: no lo son
 	 */
 	public boolean equals(Node other) {
-		boolean check = true; // 
 		// MODIFICAR la condición para ajustarse a las necesidades del problema
-		return check;
+		return (
+				equalTasks(other.getTareas()) &&
+				equalTools(other.getHerramientas())
+				) ? true:false;
+	}
+	
+	
+	/**
+	 * 
+	 * @param tasks -- arrayList con las tareas a comparar
+	 * @return
+	 */
+	private boolean equalTasks(ArrayList<Tarea> tasks) {
+		boolean toReturn = true;
+		for (Tarea tarea : this.tareas) {
+			for (Tarea tarea2 : tasks) {
+				if (tarea2.getUnidades()>0) {
+					if(!tarea2.equals(tarea)) {
+						toReturn = false;
+					}
+				}
+			}
+		}
+		return toReturn;
+	}	
+	
+	/**
+	 * 
+	 * @param tools - arrayList con las herramientas a comparar
+	 * @return
+	 */
+	private boolean equalTools(ArrayList<Herramienta> tools) {
+		for (Herramienta herramienta : this.herramientas) {
+			for (Herramienta herramienta2 : tools) {
+				if(herramienta2.equals(herramienta)) {
+					return true;
+				}
+			}
+		}
+		return true;
 	}
 
 
@@ -107,7 +186,24 @@ public class Node {
 	 * @param printDebug. Permite seleccionar cuántos mensajes imprimir
 	 */
 	public void printNodeData(int printDebug) {
-		
+		if (printDebug == 2) {
+//			for (Tarea tarea : tareas) {
+//				String workerName = "none";
+//				if (tarea.getWorker() != null) {
+//					workerName = tarea.getWorker().getNombre();
+//				}
+//				System.out.println("Tarea: "+tarea.getArea()+" "+workerName);
+//			}
+			System.out.println();
+			for (Trabajador worker : trabajadores) {
+				String task = "none";
+				if (worker.getTask() != null) {
+					task = worker.getTask().getArea()+"-"+worker.getTask().getTipo();
+				}
+				System.out.println("Trabajador: "+worker.getNombre()+" en "+task);
+			}
+			System.out.println();
+		}
 	}
 
 	/**
@@ -169,5 +265,10 @@ public class Node {
 	public void setNextNode(Node nextNode) {
 		this.nextNodeList = nextNode;
 	}
+	public Tarea getWorkingAt() {
+		return this.workingAt;
+	}
+	public void setWorkingAt(Tarea newTask) {
+		this.workingAt = newTask;
+	}
 }
-

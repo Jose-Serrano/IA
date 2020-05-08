@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.ObjectInputStream.GetField;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import jeops.engine.KnowledgeBase;
 import practica.json.LectorJSON;
@@ -53,6 +54,8 @@ public class MainClass {
 		for (Tarea tarea : readedTareas) {
 			System.out.println(tarea.getArea()+" "+tarea.getTipo()+" "+tarea.getUnidades()+" "+tarea.getState());
 		}
+		Tarea warehouse = new Tarea(null, "A", 0);
+		readedTareas.add(warehouse);
 		
 		/**
 		 * No se permite modificar el código hasta aquí. Salvo el valor de printDebug o problemPath
@@ -108,23 +111,17 @@ public class MainClass {
 		for (Trabajador worker : trabajadores) {
 			String habilidad = "";
 			System.out.print("El trabajador "+worker.getNombre()+" esta en: ");
-			ArrayList<Tarea> workinAreas = worker.getAllWorkingAreas();
-			if (workinAreas.isEmpty()) {
-				System.out.print(" Vacio ");
-			}
-			for (Tarea tarea : workinAreas) {
-				if (tarea.getWorker().getNombre().equalsIgnoreCase(worker.getNombre())) {
-					System.out.print(tarea.getArea()+" haciendo "+tarea.getTipo()+" ");
-					habilidad = tarea.getTipo();
-				}
-			}
 			System.out.println("Horas totales= "+worker.getHours());
 		}
 		//Comprobacion final
 		for (Tarea tarea : readedTareas) {
 			if (tarea.getState()) {
-				System.out.println(tarea.getArea()+" "+tarea.getTipo()+" "+tarea.getUnidades()+" "+tarea.getState());
+				System.out.println(tarea.getArea()+" "+tarea.getTipo()+" "+tarea.getUnidades()+" "+tarea.getState()+" "+tarea.getTool().getNombre());
 			}
+		}
+		
+		for (Herramienta herramienta : herramientas) {
+			System.out.println(herramienta.getTrabajo());
 		}
 		
 		/* Prueba de que se elimina una tarea

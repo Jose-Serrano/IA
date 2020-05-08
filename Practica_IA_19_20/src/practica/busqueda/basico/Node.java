@@ -24,7 +24,7 @@ public class Node {
 	ArrayList<Trabajador>  trabajadores;
 	ArrayList<Tarea>       tareas;
 	// Añadir más variables si se desea
-
+	private Tarea workingAt;
 	/**
 	 * MODIFICAR
 	 * Constructor para introducir un nuevo nodo en el algoritmo A estrella
@@ -35,6 +35,7 @@ public class Node {
 		this.trabajadores = trabajadores;
 		this.tareas       = tareas;
 		// Añadir más variables si se desea
+		this.workingAt = null;
 	}
 
 	/**
@@ -70,12 +71,14 @@ public class Node {
 			tareas.add(tarea);
 		}
 		this.tareas = tareas;
+		this.workingAt = original.getWorkingAt();
 	}
 
 	/**
 	 * Constructor auxiliar para generar el primer nodo de la lista abierta
+	 * Constructor modificado para el problema.
 	 */ 
-	public Node() {	}
+	public Node() {}
 
 	/**
 	 *  Calcula el valor de la heuristica del problema para el nodo 
@@ -85,7 +88,25 @@ public class Node {
 	 */
 	public void computeHeuristic(Node finalNode) {
 		// MODIFICAR para ajustarse a las necesidades del problema
-		this.heuristic = 0;
+		//La función heurística del problema. f(n) = h(n) - g(n);
+		//h(n) lo que queda por hacer;
+		//g(n) lo que llevamos hecho.
+		//Comparamos el nodo final con el nodo actual
+		for (Tarea task : tareas) {
+			if (task.getUnidades() > 0) {
+				trabajadores.get(0).setTool(getTool(task.getTipo()));
+				this.heuristic += trabajadores.get(0).taskTime(task);				
+			}
+		}
+//		System.out.println("El valor de la heurítica para este nodo es: "+this.heuristic);
+	}
+	
+	private Herramienta getTool(String taskType) {
+		for (Herramienta herramienta : herramientas) {
+			if(herramienta.getTrabajo().equalsIgnoreCase(taskType))
+				return herramienta;
+		}
+		return null;
 	}
 
 	/**
@@ -96,9 +117,47 @@ public class Node {
 	 * @return true: son iguales. false: no lo son
 	 */
 	public boolean equals(Node other) {
-		boolean check = true; // 
 		// MODIFICAR la condición para ajustarse a las necesidades del problema
-		return check;
+		return (
+				equalTasks(other.getTareas()) &&
+				equalTools(other.getHerramientas())
+				) ? true:false;
+	}
+	
+	
+	/**
+	 * 
+	 * @param tasks -- arrayList con las tareas a comparar
+	 * @return
+	 */
+	private boolean equalTasks(ArrayList<Tarea> tasks) {
+		boolean toReturn = true;
+		for (Tarea tarea : this.tareas) {
+			for (Tarea tarea2 : tasks) {
+				if (tarea2.getUnidades()>0) {
+					if(!tarea2.equals(tarea)) {
+						toReturn = false;
+					}
+				}
+			}
+		}
+		return toReturn;
+	}	
+	
+	/**
+	 * 
+	 * @param tools - arrayList con las herramientas a comparar
+	 * @return
+	 */
+	private boolean equalTools(ArrayList<Herramienta> tools) {
+		for (Herramienta herramienta : this.herramientas) {
+			for (Herramienta herramienta2 : tools) {
+				if(herramienta2.equals(herramienta)) {
+					return true;
+				}
+			}
+		}
+		return true;
 	}
 
 
@@ -107,7 +166,7 @@ public class Node {
 	 * @param printDebug. Permite seleccionar cuántos mensajes imprimir
 	 */
 	public void printNodeData(int printDebug) {
-		
+		System.out.print(this.workingAt.getArea()+"->");
 	}
 
 	/**
@@ -168,5 +227,11 @@ public class Node {
 	}
 	public void setNextNode(Node nextNode) {
 		this.nextNodeList = nextNode;
+	}
+	public Tarea getWorkingAt() {
+		return this.workingAt;
+	}
+	public void setWorkingAt(Tarea newTask) {
+		this.workingAt = newTask;
 	}
 }

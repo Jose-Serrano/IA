@@ -1,16 +1,20 @@
 // **RECUERDA** PRIORIDAD EN FUNCIÓN DEL ORDEN DE LAS REGLAS (LA SUPERIOR LA MÁS PRIORITARIA)
+//5 minutos de un area a otra area adyacente
 
 rule asignation{
 	declarations
 		practica.objetos.Tarea t1;
 		practica.objetos.Trabajador w1;
+		practica.objetos.Herramienta h1;
 	preconditions
 		t1.getUnidades() > 0;
 		!t1.getState();
+		t1.getTipo().equals(h1.getTrabajo());
 	actions
 		w1.setWork();
 		t1.assignWorker(w1);
 		w1.addWorkingArea(t1);
+		t1.setTool(h1);
 		modified(w1);
 		modified(t1);
 }
@@ -21,7 +25,7 @@ rule improveAsignation{
 		practica.objetos.Trabajador w1;
 	preconditions
 		t1.getState(); //Debe de tener alguien asignado
-		t1.getWorker().getWorkingHability(t1.getTipo()) < w1.getWorkingHability(t1.getTipo());
+		t1.getWorker().getWorkingAbility(t1.getTipo()) < w1.getWorkingAbility(t1.getTipo());
 		!t1.getWorker().getNombre().equals(w1.getNombre());
 	actions
 		t1.getWorker().deleteTarea(t1);
@@ -30,6 +34,7 @@ rule improveAsignation{
 		modified(w1);
 		modified(t1);
 }
+
 
 //Ajustando las horas de los trabajadores en la anterior
 //rule adjustHours{
@@ -47,16 +52,16 @@ rule improveAsignation{
 //}
 
 //Se debe quedar en un bucle infinito porque no tenemos ninguna forma de indicar que esa tarea ya ha sido reasignada.
-rule everyoneWorking{
-	declarations
-		practica.objetos.Tarea t1;
-		practica.objetos.Trabajador w1;
-	preconditions
-		t1.getWorker().getHours() > w1.getHours();//Aqui esta el fallo de porqué no se lanza esta regla, funciona con >= y se queda en el bucle infinito.
-	actions
-		t1.getWorker().deleteTarea(t1);
-		t1.assignWorker(w1);
-		w1.addWorkingArea(t1);
-		modified(w1);
-		modified(t1);
-}
+//rule everyoneWorking{
+//	declarations
+//		practica.objetos.Tarea t1;
+//		practica.objetos.Trabajador w1;
+//	preconditions
+//		t1.getWorker().getHours() > w1.getHours();//Aqui esta el fallo de porqué no se lanza esta regla, funciona con >= y se queda en el bucle infinito.
+//	actions
+//		t1.getWorker().deleteTarea(t1);
+//		t1.assignWorker(w1);
+//		w1.addWorkingArea(t1);
+//		modified(w1);
+//		modified(t1);
+//}

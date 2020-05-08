@@ -110,7 +110,7 @@ public class LectorJSON {
 				Map.Entry<String, JSONObject> pair = (Entry<String, JSONObject>) iterator.next();
 				JSONObject herramientaObject = pair.getValue();
 				Long mejoraAux = (Long) herramientaObject.get("mejora");
-				Long cantidadAux = (Long) herramientaObject.get("mejora");
+				Long cantidadAux = (Long) herramientaObject.get("cantidad");
 				Long pesoAux = (Long) herramientaObject.get("peso");
 				herramientas.add(new Herramienta(
 						(String)  herramientaObject.get("nombre"), 
